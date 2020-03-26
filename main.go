@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	userPB "github.com/G0tYou/user-service/proto"
 	"github.com/SleepingNext/api-gateway/helper"
+	authPB "github.com/SleepingNext/auth-service/proto"
 	orderPB "github.com/SleepingNext/order-service/proto"
 	"log"
 
@@ -886,9 +887,52 @@ func main() {
 		return
 	})
 
+	s.HandleFunc("/auth/auth", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != "POST" {
+			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			return
+		}
+
+		// Take params from request
+		body, err := ioutil.ReadAll(r.Body)
+		defer r.Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Unmarshal the body
+		var user *authPB.User
+		err = json.Unmarshal(body, &user)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		client := helper.NewAuthClient()
+
+		// Call IndexProducts rpc from grpc client
+		res, err := client.Auth(context.Background(), user)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Marshal the response
+		js, err := json.Marshal(res)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Set the header and write the marshaled response
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	})
+
 	err := s.Run()
 	if err != nil {
 		log.Fatal(err)
 	}
-
 }
