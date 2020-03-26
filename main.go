@@ -3,10 +3,15 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"github.com/SleepingNext/SKit/api-gateway/helper"
+	"github.com/SleepingNext/api-gateway/helper"
+	userPB "github.com/G0tYou/user-service/proto"
+	//authPB "github.com/SleepingNext/auth-service/proto"
+	//orderPB "github.com/SleepingNext/order-service/proto"
+	//paymentPB "github.com/SleepingNext/payment-service/proto"
 	productPB "github.com/SleepingNext/product-service/proto"
 	"github.com/micro/go-micro/metadata"
 	"github.com/micro/go-micro/web"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -20,13 +25,14 @@ func main() {
 	// Initialize the service
 	s.Init()
 
+	// Product APIs
 	s.HandleFunc("/product/index", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != "GET" {
 			http.Error(w, "Unsupported http method", http.StatusBadRequest)
 			return
 		}
 
-		client := helper.NewClient()
+		client := helper.NewProductClient()
 
 		// Call IndexProducts rpc from grpc client
 		res, err := client.IndexProducts(context.Background(), &productPB.IndexProductsRequest{})
@@ -53,11 +59,24 @@ func main() {
 			http.Error(w, "Unsupported http method", http.StatusBadRequest)
 			return
 		}
-		// Take params from request
-		vars := r.URL.Query()
-		product := helper.ParseShowAndDeleteQuery(vars)
 
-		client := helper.NewClient()
+		// Take params from request
+		body, err := ioutil.ReadAll(r.Body)
+		defer r.Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Unmarshal the body
+		var product *productPB.Product
+		err = json.Unmarshal(body, &product)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		client := helper.NewProductClient()
 
 		// Call ShowProduct rpc from grpc client
 		res, err := client.ShowProduct(context.Background(), product)
@@ -84,11 +103,24 @@ func main() {
 			http.Error(w, "Unsupported http method", http.StatusBadRequest)
 			return
 		}
-		// Take params from request
-		vars := r.URL.Query()
-		product := helper.ParseStoreQuery(vars)
 
-		client := helper.NewClient()
+		// Take params from request
+		body, err := ioutil.ReadAll(r.Body)
+		defer r.Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Unmarshal the body
+		var product *productPB.Product
+		err = json.Unmarshal(body, &product)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		client := helper.NewProductClient()
 
 		// Get the authorization header
 		authorizationHeader := r.Header.Get("Authorization")
@@ -128,11 +160,24 @@ func main() {
 			http.Error(w, "Unsupported http method", http.StatusBadRequest)
 			return
 		}
-		// Take params from request
-		vars := r.URL.Query()
-		product := helper.ParseUpdateQuery(vars)
 
-		client := helper.NewClient()
+		// Take params from request
+		body, err := ioutil.ReadAll(r.Body)
+		defer r.Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Unmarshal the body
+		var product *productPB.Product
+		err = json.Unmarshal(body, &product)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		client := helper.NewProductClient()
 
 
 		// Get the authorization header
@@ -174,11 +219,24 @@ func main() {
 			http.Error(w, "Unsupported http method", http.StatusBadRequest)
 			return
 		}
-		// Take params from request
-		vars := r.URL.Query()
-		product := helper.ParseShowAndDeleteQuery(vars)
 
-		client := helper.NewClient()
+		// Take params from request
+		body, err := ioutil.ReadAll(r.Body)
+		defer r.Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Unmarshal the body
+		var product *productPB.Product
+		err = json.Unmarshal(body, &product)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		client := helper.NewProductClient()
 
 		// Get the authorization header
 		authorizationHeader := r.Header.Get("Authorization")
@@ -195,6 +253,295 @@ func main() {
 
 		// Call DestroyProduct rpc from grpc client
 		res, err := client.DestroyProduct(ctx, product)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return			}
+
+		// Marshal the response
+		js, err := json.Marshal(res)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Set the header and write the marshaled response
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	})
+
+	// User APIs
+	s.HandleFunc("/user/index", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != "GET" {
+			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			return
+		}
+
+		client := helper.NewUserClient()
+
+		// Get the authorization header
+		authorizationHeader := r.Header.Get("Authorization")
+		if !strings.Contains(authorizationHeader, "Bearer") {
+			http.Error(w, "Invalid token", http.StatusBadRequest)
+			return
+		}
+		token := strings.Replace(authorizationHeader, "Bearer ", "", -1)
+
+		// Create context with token
+		ctx := metadata.NewContext(context.Background(), map[string]string{
+			"token": token,
+		})
+
+		// Call IndexUsers rpc from grpc client
+		res, err := client.IndexUsers(ctx, &userPB.IndexUsersRequest{})
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Marshal the response
+		js, err := json.Marshal(res)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Set the header and write the marshaled response
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	})
+
+	s.HandleFunc("/user/show", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != "GET" {
+			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			return
+		}
+
+		// Take params from request
+		body, err := ioutil.ReadAll(r.Body)
+		defer r.Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Unmarshal the body
+		var user *userPB.User
+		err = json.Unmarshal(body, &user)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		client := helper.NewUserClient()
+
+		// Call ShowUser rpc from grpc client
+		res, err := client.ShowUser(context.Background(), user)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Marshal the response
+		js, err := json.Marshal(res)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Set the header and write the marshaled response
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	})
+
+	s.HandleFunc("/user/showByUsername", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != "GET" {
+			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			return
+		}
+
+		// Take params from request
+		body, err := ioutil.ReadAll(r.Body)
+		defer r.Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Unmarshal the body
+		var user *userPB.User
+		err = json.Unmarshal(body, &user)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		client := helper.NewUserClient()
+
+		// Call ShowUserByUsername( rpc from grpc client
+		res, err := client.ShowUserByUsername(context.Background(), user)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Marshal the response
+		js, err := json.Marshal(res)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Set the header and write the marshaled response
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	})
+
+	s.HandleFunc("/user/store", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != "POST" {
+			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			return
+		}
+
+		// Take params from request
+		body, err := ioutil.ReadAll(r.Body)
+		defer r.Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Unmarshal the body
+		var user *userPB.User
+		err = json.Unmarshal(body, &user)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		client := helper.NewUserClient()
+
+		// Call StoreUser rpc from grpc client
+		res, err := client.StoreUser(context.Background(), user)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Marshal the response
+		js, err := json.Marshal(res)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Set the header and write the marshaled response
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	})
+
+	s.HandleFunc("/user/update", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != "PUT" {
+			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			return
+		}
+
+		// Take params from request
+		body, err := ioutil.ReadAll(r.Body)
+		defer r.Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Unmarshal the body
+		var user *userPB.User
+		err = json.Unmarshal(body, &user)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		client := helper.NewUserClient()
+
+
+		// Get the authorization header
+		authorizationHeader := r.Header.Get("Authorization")
+		if !strings.Contains(authorizationHeader, "Bearer") {
+			http.Error(w, "Invalid token", http.StatusBadRequest)
+			return
+		}
+		token := strings.Replace(authorizationHeader, "Bearer ", "", -1)
+
+		// Create context with token
+		ctx := metadata.NewContext(context.Background(), map[string]string{
+			"token": token,
+		})
+
+
+		// Call UpdateUser rpc from grpc client
+		res, err := client.UpdateUser(ctx, user)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Marshal the response
+		js, err := json.Marshal(res)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Set the header and write the marshaled response
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	})
+
+	s.HandleFunc("/user/destroy", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != "DELETE" {
+			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			return
+		}
+
+		// Take params from request
+		body, err := ioutil.ReadAll(r.Body)
+		defer r.Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Unmarshal the body
+		var user *userPB.User
+		err = json.Unmarshal(body, &user)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		client := helper.NewUserClient()
+
+		// Get the authorization header
+		authorizationHeader := r.Header.Get("Authorization")
+		if !strings.Contains(authorizationHeader, "Bearer") {
+			http.Error(w, "Invalid token", http.StatusBadRequest)
+			return
+		}
+		token := strings.Replace(authorizationHeader, "Bearer ", "", -1)
+
+		// Create context with token
+		ctx := metadata.NewContext(context.Background(), map[string]string{
+			"token": token,
+		})
+
+		// Call DestroyUser rpc from grpc client
+		res, err := client.DestroyUser(ctx, user)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return			}
