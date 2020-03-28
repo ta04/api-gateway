@@ -3,25 +3,28 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"log"
+
 	userPB "github.com/G0tYou/user-service/proto"
 	"github.com/SleepingNext/api-gateway/helper"
 	authPB "github.com/SleepingNext/auth-service/proto"
 	orderPB "github.com/SleepingNext/order-service/proto"
-	"log"
 
 	//authPB "github.com/SleepingNext/auth-service/proto"
 	//paymentPB "github.com/SleepingNext/payment-service/proto"
-	productPB "github.com/SleepingNext/product-service/proto"
-	"github.com/micro/go-micro/metadata"
-	"github.com/micro/go-micro/web"
 	"io/ioutil"
 	"net/http"
 	"strings"
+
+	productPB "github.com/SleepingNext/product-service/proto"
+	"github.com/micro/go-micro/metadata"
+	"github.com/micro/go-micro/web"
 )
 
 func main() {
 	s := web.NewService(
 		web.Name("com.ta04.web.skit"),
+		web.Address(":50056"),
 	)
 
 	// Initialize the service
@@ -181,7 +184,6 @@ func main() {
 
 		client := helper.NewProductClient()
 
-
 		// Get the authorization header
 		authorizationHeader := r.Header.Get("Authorization")
 		if !strings.Contains(authorizationHeader, "Bearer") {
@@ -194,7 +196,6 @@ func main() {
 		ctx := metadata.NewContext(context.Background(), map[string]string{
 			"token": token,
 		})
-
 
 		// Call UpdateProduct rpc from grpc client
 		res, err := client.UpdateProduct(ctx, product)
@@ -257,7 +258,8 @@ func main() {
 		res, err := client.DestroyProduct(ctx, product)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return			}
+			return
+		}
 
 		// Marshal the response
 		js, err := json.Marshal(res)
@@ -470,7 +472,6 @@ func main() {
 
 		client := helper.NewUserClient()
 
-
 		// Get the authorization header
 		authorizationHeader := r.Header.Get("Authorization")
 		if !strings.Contains(authorizationHeader, "Bearer") {
@@ -483,7 +484,6 @@ func main() {
 		ctx := metadata.NewContext(context.Background(), map[string]string{
 			"token": token,
 		})
-
 
 		// Call UpdateUser rpc from grpc client
 		res, err := client.UpdateUser(ctx, user)
@@ -546,7 +546,8 @@ func main() {
 		res, err := client.DestroyUser(ctx, user)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return			}
+			return
+		}
 
 		// Marshal the response
 		js, err := json.Marshal(res)
@@ -872,7 +873,8 @@ func main() {
 		res, err := client.DestroyOrder(ctx, order)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return			}
+			return
+		}
 
 		// Marshal the response
 		js, err := json.Marshal(res)
