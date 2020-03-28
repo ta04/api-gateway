@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"os"
 
 	userPB "github.com/G0tYou/user-service/proto"
 	"github.com/SleepingNext/api-gateway/helper"
@@ -22,9 +23,16 @@ import (
 )
 
 func main() {
+	// Take or set the port
+	port := ":" + os.Getenv("PORT")
+	if port == ":" {
+		port = ":50056"
+	}
+
+	// Create a new service
 	s := web.NewService(
 		web.Name("com.ta04.web.skit"),
-		web.Address(":50056"),
+		web.Address(port),
 	)
 
 	// Initialize the service
