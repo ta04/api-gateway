@@ -9,6 +9,7 @@ require (
 	github.com/SleepingNext/payment-service v0.0.0-20200313155410-9f030ef23606
 	github.com/SleepingNext/product-service v0.0.0-20200313155410-36993b85ea42
 	github.com/micro/go-micro v1.18.0
+	github.com/micro/go-plugins/registry/consul v0.0.0-20200119172437-4fe21aa238fd
 )
 
 // +heroku goVersion go1.13.8

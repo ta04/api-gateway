@@ -11,8 +11,6 @@ import (
 	authPB "github.com/SleepingNext/auth-service/proto"
 	orderPB "github.com/SleepingNext/order-service/proto"
 
-	//authPB "github.com/SleepingNext/auth-service/proto"
-	//paymentPB "github.com/SleepingNext/payment-service/proto"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -20,6 +18,7 @@ import (
 	productPB "github.com/SleepingNext/product-service/proto"
 	"github.com/micro/go-micro/metadata"
 	"github.com/micro/go-micro/web"
+	"github.com/micro/go-plugins/registry/consul"
 )
 
 func main() {
@@ -29,10 +28,14 @@ func main() {
 		port = ":50056"
 	}
 
+	// Create a new registry
+	registry := consul.NewRegistry()
+
 	// Create a new service
 	s := web.NewService(
 		web.Name("com.ta04.web.skit"),
 		web.Address(port),
+		web.Registry(registry),
 	)
 
 	// Initialize the service
