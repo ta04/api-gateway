@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	paymentPB "github.com/SleepingNext/payment-service/proto"
 	"log"
 	"os"
 
@@ -882,6 +883,333 @@ func main() {
 
 		// Call DestroyOrder rpc from grpc client
 		res, err := client.DestroyOrder(ctx, order)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Marshal the response
+		js, err := json.Marshal(res)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Set the header and write the marshaled response
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	})
+
+	// Payment APIs
+	s.HandleFunc("/payment/index", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != "GET" {
+			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			return
+		}
+
+		client := helper.NewPaymentClient()
+
+		// Get the authorization header
+		authorizationHeader := r.Header.Get("Authorization")
+		if !strings.Contains(authorizationHeader, "Bearer") {
+			http.Error(w, "Invalid token", http.StatusBadRequest)
+			return
+		}
+		token := strings.Replace(authorizationHeader, "Bearer ", "", -1)
+
+		// Create context with token
+		ctx := metadata.NewContext(context.Background(), map[string]string{
+			"token": token,
+		})
+
+		// Call IndexPayments rpc from grpc client
+		res, err := client.IndexPayments(ctx, &paymentPB.IndexPaymentsRequest{})
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Marshal the response
+		js, err := json.Marshal(res)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Set the header and write the marshaled response
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	})
+
+	s.HandleFunc("/payment/indexByUserID", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != "GET" {
+			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			return
+		}
+
+		// Take params from request
+		body, err := ioutil.ReadAll(r.Body)
+		defer r.Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Unmarshal the body
+		var user *paymentPB.User
+		err = json.Unmarshal(body, &user)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		client := helper.NewPaymentClient()
+
+		// Get the authorization header
+		authorizationHeader := r.Header.Get("Authorization")
+		if !strings.Contains(authorizationHeader, "Bearer") {
+			http.Error(w, "Invalid token", http.StatusBadRequest)
+			return
+		}
+		token := strings.Replace(authorizationHeader, "Bearer ", "", -1)
+
+		// Create context with token
+		ctx := metadata.NewContext(context.Background(), map[string]string{
+			"token": token,
+		})
+
+		// Call IndexPayments rpc from grpc client
+		res, err := client.IndexPaymentsByUserID(ctx, user)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Marshal the response
+		js, err := json.Marshal(res)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Set the header and write the marshaled response
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	})
+
+	s.HandleFunc("/payment/show", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != "GET" {
+			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			return
+		}
+
+		// Take params from request
+		body, err := ioutil.ReadAll(r.Body)
+		defer r.Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Unmarshal the body
+		var payment *paymentPB.Payment
+		err = json.Unmarshal(body, &payment)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		client := helper.NewPaymentClient()
+
+		// Get the authorization header
+		authorizationHeader := r.Header.Get("Authorization")
+		if !strings.Contains(authorizationHeader, "Bearer") {
+			http.Error(w, "Invalid token", http.StatusBadRequest)
+			return
+		}
+		token := strings.Replace(authorizationHeader, "Bearer ", "", -1)
+
+		// Create context with token
+		ctx := metadata.NewContext(context.Background(), map[string]string{
+			"token": token,
+		})
+
+		// Call ShowPayment rpc from grpc client
+		res, err := client.ShowPayment(ctx, payment)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Marshal the response
+		js, err := json.Marshal(res)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Set the header and write the marshaled response
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	})
+
+	s.HandleFunc("/payment/store", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != "POST" {
+			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			return
+		}
+
+		// Take params from request
+		body, err := ioutil.ReadAll(r.Body)
+		defer r.Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Unmarshal the body
+		var payment *paymentPB.Payment
+		err = json.Unmarshal(body, &payment)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		client := helper.NewPaymentClient()
+
+		// Get the authorization header
+		authorizationHeader := r.Header.Get("Authorization")
+		if !strings.Contains(authorizationHeader, "Bearer") {
+			http.Error(w, "Invalid token", http.StatusBadRequest)
+			return
+		}
+		token := strings.Replace(authorizationHeader, "Bearer ", "", -1)
+
+		// Create context with token
+		ctx := metadata.NewContext(context.Background(), map[string]string{
+			"token": token,
+		})
+
+		// Call StorePayment rpc from grpc client
+		res, err := client.StorePayment(ctx, payment)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Marshal the response
+		js, err := json.Marshal(res)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Set the header and write the marshaled response
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	})
+
+	s.HandleFunc("/payment/update", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != "PUT" {
+			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			return
+		}
+
+		// Take params from request
+		body, err := ioutil.ReadAll(r.Body)
+		defer r.Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Unmarshal the body
+		var payment *paymentPB.Payment
+		err = json.Unmarshal(body, &payment)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		client := helper.NewPaymentClient()
+
+		// Get the authorization header
+		authorizationHeader := r.Header.Get("Authorization")
+		if !strings.Contains(authorizationHeader, "Bearer") {
+			http.Error(w, "Invalid token", http.StatusBadRequest)
+			return
+		}
+		token := strings.Replace(authorizationHeader, "Bearer ", "", -1)
+
+		// Create context with token
+		ctx := metadata.NewContext(context.Background(), map[string]string{
+			"token": token,
+		})
+
+		// Call UpdatePayment rpc from grpc client
+		res, err := client.UpdatePayment(ctx, payment)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Marshal the response
+		js, err := json.Marshal(res)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Set the header and write the marshaled response
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	})
+
+	s.HandleFunc("/payment/destroy", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != "DELETE" {
+			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			return
+		}
+
+		// Take params from request
+		body, err := ioutil.ReadAll(r.Body)
+		defer r.Body.Close()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Unmarshal the body
+		var payment *paymentPB.Payment
+		err = json.Unmarshal(body, &payment)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		client := helper.NewPaymentClient()
+
+		// Get the authorization header
+		authorizationHeader := r.Header.Get("Authorization")
+		if !strings.Contains(authorizationHeader, "Bearer") {
+			http.Error(w, "Invalid token", http.StatusBadRequest)
+			return
+		}
+		token := strings.Replace(authorizationHeader, "Bearer ", "", -1)
+
+		// Create context with token
+		ctx := metadata.NewContext(context.Background(), map[string]string{
+			"token": token,
+		})
+
+		// Call DestroyPayment rpc from grpc client
+		res, err := client.DestroyPayment(ctx, payment)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
