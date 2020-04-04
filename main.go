@@ -3,9 +3,10 @@ package main
 import (
 	"context"
 	"encoding/json"
-	paymentPB "github.com/SleepingNext/payment-service/proto"
 	"log"
 	"os"
+
+	paymentPB "github.com/SleepingNext/payment-service/proto"
 
 	userPB "github.com/G0tYou/user-service/proto"
 	"github.com/SleepingNext/api-gateway/helper"
@@ -66,6 +67,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -110,6 +112,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -167,6 +170,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -224,6 +228,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -281,6 +286,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -323,6 +329,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -367,6 +374,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -411,6 +419,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -455,6 +464,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -512,6 +522,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -569,6 +580,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -611,6 +623,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -668,6 +681,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -725,6 +739,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -782,6 +797,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -839,6 +855,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -896,6 +913,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -938,6 +956,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -995,6 +1014,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -1052,6 +1072,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -1109,6 +1130,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -1166,6 +1188,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -1223,6 +1246,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -1267,6 +1291,7 @@ func main() {
 		}
 
 		// Set the header and write the marshaled response
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
