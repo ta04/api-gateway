@@ -68,6 +68,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -113,6 +115,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -171,6 +175,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -229,6 +235,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -287,6 +295,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -330,6 +340,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -375,6 +387,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -420,6 +434,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -465,6 +481,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -523,6 +541,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -581,6 +601,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -624,6 +646,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -682,6 +706,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -740,6 +766,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -798,6 +826,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -856,6 +886,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -914,6 +946,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -957,6 +991,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -1015,6 +1051,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -1073,6 +1111,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -1131,6 +1171,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -1189,6 +1231,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -1247,6 +1291,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
@@ -1292,6 +1338,8 @@ func main() {
 
 		// Set the header and write the marshaled response
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
