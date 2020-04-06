@@ -82,7 +82,7 @@ func main() {
 	})
 
 	s.HandleFunc("/product/show", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "GET" {
+		if r.Method == "POST" {
 			// Take params from request
 			body, err := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
@@ -384,7 +384,7 @@ func main() {
 	})
 
 	s.HandleFunc("/user/show", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "GET" {
+		if r.Method == "POST" {
 			// Take params from request
 			body, err := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
@@ -437,7 +437,7 @@ func main() {
 	})
 
 	s.HandleFunc("/user/showByUsername", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "GET" {
+		if r.Method == "POST" {
 			// Take params from request
 			body, err := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
@@ -726,7 +726,7 @@ func main() {
 	})
 
 	s.HandleFunc("/order/indexByUserID", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "GET" {
+		if r.Method == "POST" {
 			// Take params from request
 			body, err := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
@@ -792,7 +792,7 @@ func main() {
 	})
 
 	s.HandleFunc("/order/show", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "GET" {
+		if r.Method == "POST" {
 			// Take params from request
 			body, err := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
@@ -1107,7 +1107,7 @@ func main() {
 	})
 
 	s.HandleFunc("/payment/indexByUserID", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "GET" {
+		if r.Method == "POST" {
 			// Take params from request
 			body, err := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
@@ -1173,7 +1173,7 @@ func main() {
 	})
 
 	s.HandleFunc("/payment/show", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "GET" {
+		if r.Method == "POST" {
 			// Take params from request
 			body, err := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
