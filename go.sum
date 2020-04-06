@@ -21,6 +21,7 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/G0tYou/user-service v0.0.0-20200310095908-444b79714d45 h1:P89N5+4sFaWXUPAQKR8FgRdnjZSN1Czan5M8OXnhNkk=
 github.com/G0tYou/user-service v0.0.0-20200310095908-444b79714d45/go.mod h1:itFF2wa6lLo6HzuJOTeQn0GZvuLP/FKJsbCf0u30CnE=
 github.com/G0tYou/user-service v0.0.0-20200311130938-920d645701f1/go.mod h1:DFzXNuQCqC+QnnQVt20UgWC0mAocAEmjR6VuwE6/8AA=
+github.com/G0tYou/user-service v0.0.0-20200313080858-d3bce7c4df84/go.mod h1:9/P6mNF7Y7BzwWJUQ4AvvAHWbF9YSO6x0tmCN5pw7Yw=
 github.com/G0tYou/user-service v0.0.0-20200406111304-e1323d4a0a54 h1:TXn/tvKGd6OGVXuDMKJJY/eNcdB1DZIzYnmVU4hP/wU=
 github.com/G0tYou/user-service v0.0.0-20200406111304-e1323d4a0a54/go.mod h1:84FUlO4OCBcdUO9cRxmgpKaHUbaD7u4uryhCHx+0q0w=
 github.com/G0tYou/user-service-cli v0.0.0-20200312031934-e817abf5a47d/go.mod h1:kjpxTDdgzFK3p9aqH986Q5C2gEvdeAiD9/d7p+4TKfI=
@@ -34,8 +35,16 @@ github.com/Shopify/sarama v1.19.0/go.mod h1:FVkBWblsNy7DGZRfXLU0O9RCGt5g3g3yEuWX
 github.com/Shopify/toxiproxy v2.1.4+incompatible/go.mod h1:OXgGpZ6Cli1/URJOF1DMxUHB2q5Ap20/P/eIdh4G0pI=
 github.com/SleepingNext/auth-service v0.0.0-20200311050407-6644661a0b56 h1:acquLYC2p0CVBHP1BcgyZJqOjyBWAuLYSoddmVZlWS8=
 github.com/SleepingNext/auth-service v0.0.0-20200311050407-6644661a0b56/go.mod h1:+4hNDejAxXuZn3AMjKu/53uqFKy/zcNT4nzM58ieyag=
-github.com/SleepingNext/order-service v0.0.0-20200313155410-361da2596c66 h1:i9S4yoT3Prvs8NBlG9BLpy6Zy/1zqHoVSqYeJrpkcGE=
-github.com/SleepingNext/order-service v0.0.0-20200313155410-361da2596c66/go.mod h1:i2aQKd5PZRGs6j2RiKYoa/Ddc3sGeCQDer+mJlz634s=
+github.com/SleepingNext/auth-service v0.0.0-20200313153242-120f09c7b876/go.mod h1:HziU2VHDfpeCePtlhfRzhZSyGxXPZIGVWe0gjchzcRQ=
+github.com/SleepingNext/auth-service v0.0.0-20200401111620-a1582acdaa03 h1:ZpoXSAeejCna3AMolz3KGgXOp9Vgt6UWZYYbFjkwxb8=
+github.com/SleepingNext/auth-service v0.0.0-20200401111620-a1582acdaa03/go.mod h1:Ynfj9T9ayq2RSEqtVcxuVBqKQlrR1JmhWOTe+kiJbU0=
+github.com/SleepingNext/auth-service v0.0.0-20200406163645-173dce000f64 h1:TwLWBtVv2NXzpVk4F4wEL9DYfXRH6sx/TOG79h/m5Ro=
+github.com/SleepingNext/auth-service v0.0.0-20200406163645-173dce000f64/go.mod h1:KfCFH2cUJnTepojynOD5tPlkFHKUYVTveh7t3/soUWU=
+github.com/SleepingNext/auth-service v0.0.0-20200406165158-7ff821576fdf h1:caXD2fOFkcqZkje9ccP+wUbKKAT4rerULSrKfKW9umc=
+github.com/SleepingNext/auth-service v0.0.0-20200406165158-7ff821576fdf/go.mod h1:KfCFH2cUJnTepojynOD5tPlkFHKUYVTveh7t3/soUWU=
+github.com/SleepingNext/auth-service v0.0.0-20200406165518-4b3ef33c067e h1:U43Qidvow+1+G2aNVIDTdYFNoktrFgsc3Kn4wwfJmxA=
+github.com/SleepingNext/auth-service v0.0.0-20200406165518-4b3ef33c067e/go.mod h1:KfCFH2cUJnTepojynOD5tPlkFHKUYVTveh7t3/soUWU=
+github.com/SleepingNext/auth-service-cli v0.0.0-20200325115926-9aae17ac9ef1/go.mod h1:0vvWYmcBNIkoREVyOw6mjvY7/cokdRfCK8zei6I6dyI=
 github.com/SleepingNext/order-service v0.0.0-20200405104014-19c70a80fd75 h1:vp6nk7GQ4Qq0DqrZHzRvkD6B5NA2L+uCt+PPCJ0YUIE=
 github.com/SleepingNext/order-service v0.0.0-20200405104014-19c70a80fd75/go.mod h1:95L1Yzp+RQ29SrckaTfPEhrv2GzdPfwIZUXybPTDH3c=
 github.com/SleepingNext/payment-service v0.0.0-20200313155410-9f030ef23606 h1:XxSxet0tzp0NftMsF3RxB8UCcG65wEPgo+tBh0xpF4Q=

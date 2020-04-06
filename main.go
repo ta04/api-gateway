@@ -456,7 +456,7 @@ func main() {
 
 			client := helper.NewUserClient()
 
-			// Call ShowUserByUsername( rpc from grpc client
+			// Call ShowUserByUsername rpc from grpc client
 			res, err := client.ShowUserByUsername(context.Background(), user)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -1436,7 +1436,7 @@ func main() {
 		}
 	})
 
-	s.HandleFunc("/auth/auth", func(w http.ResponseWriter, r *http.Request) {
+	s.HandleFunc("/auth/auth2", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			// Take params from request
 			body, err := ioutil.ReadAll(r.Body)
@@ -1447,8 +1447,8 @@ func main() {
 			}
 
 			// Unmarshal the body
-			var user *authPB.User
-			err = json.Unmarshal(body, &user)
+			var auth2 *authPB.Auth2
+			err = json.Unmarshal(body, &auth2)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
@@ -1457,7 +1457,60 @@ func main() {
 			client := helper.NewAuthClient()
 
 			// Call IndexProducts rpc from grpc client
-			res, err := client.Auth(context.Background(), user)
+			res, err := client.AuthRPC2(context.Background(), auth2)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			// Marshal the response
+			js, err := json.Marshal(res)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			// Set the header and write the marshaled response
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+			w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
+			w.Header().Set("Content-Type", "application/json")
+			w.Write(js)
+			return
+		} else if r.Method == "OPTIONS" {
+			// Set the header
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
+			w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
+			return
+		} else {
+			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			return
+		}
+	})
+
+	s.HandleFunc("/auth/auth1", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "POST" {
+			// Take params from request
+			body, err := ioutil.ReadAll(r.Body)
+			defer r.Body.Close()
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			// Unmarshal the body
+			var auth1 *authPB.Auth1
+			err = json.Unmarshal(body, &auth1)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			client := helper.NewAuthClient()
+
+			// Call IndexProducts rpc from grpc client
+			res, err := client.AuthRPC1(context.Background(), auth1)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
