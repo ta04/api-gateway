@@ -15,39 +15,43 @@ Dear Programmers,
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-package main
+package config
 
 import (
 	"log"
+	"os"
 
-	"github.com/SleepingNext/api-gateway/config"
-	"github.com/SleepingNext/api-gateway/handler"
-	"github.com/micro/go-micro/web"
-	"github.com/micro/go-plugins/registry/consul"
+	"github.com/joho/godotenv"
 )
 
-func main() {
-	name := config.MicroWebName()
-	port := config.MicroWebPort()
-
-	registry := consul.NewRegistry()
-
-	s := web.NewService(
-		web.Name(name),
-		web.Address(port),
-		web.Registry(registry),
-	)
-	s.Init()
-
-	// Define handlers that'll handle all requests to all APIs
-	handler.HandleProduct(s)
-	handler.HandleOrder(s)
-	handler.HandleUser(s)
-	handler.HandlePayment(s)
-	handler.HandleAuth(s)
-
-	err := s.Run()
+func init() {
+	// Load environment variables from .env into the system
+	err := godotenv.Load()
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+// MicroWebName will return MICRO_WEB_NAME from .env file
+func MicroWebName() string {
+	return lookupEnv("MICRO_WEB_NAME")
+}
+
+// MicroWebPort will return MICRO_WEB_PORT from .env file
+func MicroWebPort() string {
+	return lookupEnv("MICRO_WEB_PORT")
+}
+
+// SecretKey will return SECRET_KEY from .env file
+func SecretKey() string {
+	return lookupEnv("SECRET_KEY")
+}
+
+func lookupEnv(key string) string {
+	env, exist := os.LookupEnv(key)
+	if !exist {
+		log.Fatal(key, "is not exists in .env file")
+	}
+
+	return env
 }

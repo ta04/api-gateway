@@ -9,6 +9,8 @@ require (
 	github.com/SleepingNext/order-service v0.0.0-20200405104014-19c70a80fd75
 	github.com/SleepingNext/payment-service v0.0.0-20200313155410-9f030ef23606
 	github.com/SleepingNext/product-service v0.0.0-20200313155410-36993b85ea42
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/joho/godotenv v1.3.0
 	github.com/micro/go-micro v1.18.0
 	github.com/micro/go-plugins/registry/consul v0.0.0-20200119172437-4fe21aa238fd
 )

@@ -1,3 +1,20 @@
+/*
+Dear Programmers,
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*                                                 *
+*	This file belongs to Kevin Veros Hamonangan   *
+*	and	Fandi Fladimir Dachi and is a part of     *
+*	our	last project as the student of Del        *
+*	Institute of Technology, Sitoluama.           *
+*	Please contact us via Instagram:              *
+*	sleepingnext and fandi_dachi                  *
+*	before copying this file.                     *
+*	Thank you, buddy. 😊                          *
+*                                                 *
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+
 package helper
 
 import (
@@ -9,67 +26,57 @@ import (
 	"github.com/micro/go-micro"
 )
 
-func NewProductClient() productPB.ProductServiceClient {
-	// Create a new service
+// NewProductSC creates a new product service client
+func NewProductSC() productPB.ProductServiceClient {
 	s := micro.NewService(
 		micro.Name("com.ta04.api.product"),
 	)
-
-	// Initialize the service
 	s.Init()
 
 	productServiceClient := productPB.NewProductServiceClient("com.ta04.srv.product", s.Client())
 	return productServiceClient
 }
 
-func NewAuthClient() authPB.AuthServiceClient {
-	// Create a new service
-	s := micro.NewService(
-		micro.Name("com.ta04.api.auth"),
-	)
-
-	// Initialize the service
-	s.Init()
-
-	authServiceClient := authPB.NewAuthServiceClient("com.ta04.srv.auth", s.Client())
-	return authServiceClient
-}
-
-func NewUserClient() userPB.UserServiceClient {
-	// Create a new service
-	s := micro.NewService(
-		micro.Name("com.ta04.api.user"),
-	)
-
-	// Initialize the service
-	s.Init()
-
-	userServiceClient := userPB.NewUserServiceClient("com.ta04.srv.user", s.Client())
-	return userServiceClient
-}
-
-func NewOrderClient() orderPB.OrderServiceClient {
-	// Create a new service
+// NewOrderSC creates a new order service client
+func NewOrderSC() orderPB.OrderServiceClient {
 	s := micro.NewService(
 		micro.Name("com.ta04.api.order"),
 	)
-
-	// Initialize the service
 	s.Init()
 
 	orderServiceClient := orderPB.NewOrderServiceClient("com.ta04.srv.order", s.Client())
 	return orderServiceClient
 }
 
-func NewPaymentClient() paymentPB.PaymentServiceClient {
-	// Create a new service
+// NewUserSC creates a new user service client
+func NewUserSC() userPB.UserServiceClient {
+	s := micro.NewService(
+		micro.Name("com.ta04.api.user"),
+	)
+	s.Init()
+
+	userServiceClient := userPB.NewUserServiceClient("com.ta04.srv.user", s.Client())
+	return userServiceClient
+}
+
+// NewPaymentSC creates a new payment service client
+func NewPaymentSC() paymentPB.PaymentServiceClient {
 	s := micro.NewService(
 		micro.Name("com.ta04.api.payment"),
 	)
-
-	// Initialize the service
 	s.Init()
 
 	paymentServiceClient := paymentPB.NewPaymentServiceClient("com.ta04.srv.payment", s.Client())
 	return paymentServiceClient
+}
+
+// NewAuthSC creates a new auth service client
+func NewAuthSC() authPB.AuthServiceClient {
+	s := micro.NewService(
+		micro.Name("com.ta04.api.auth"),
+	)
+	s.Init()
+
+	authServiceClient := authPB.NewAuthServiceClient("com.ta04.srv.auth", s.Client())
+	return authServiceClient
 }
