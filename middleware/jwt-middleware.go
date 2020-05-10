@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/SleepingNext/api-gateway/config"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/ta04/api-gateway/config"
 )
 
 // Error is an error message

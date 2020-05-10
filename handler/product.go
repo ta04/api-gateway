@@ -23,10 +23,10 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/SleepingNext/api-gateway/helper"
-	"github.com/SleepingNext/api-gateway/middleware"
-	productPB "github.com/SleepingNext/product-service/proto"
 	"github.com/micro/go-micro/web"
+	"github.com/ta04/api-gateway/helper"
+	"github.com/ta04/api-gateway/middleware"
+	productPB "github.com/ta04/product-service/proto"
 )
 
 // HandleProduct handles all the requests to product APIs

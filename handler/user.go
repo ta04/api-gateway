@@ -23,9 +23,9 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	userPB "github.com/G0tYou/user-service/proto"
-	"github.com/SleepingNext/api-gateway/helper"
 	"github.com/micro/go-micro/web"
+	"github.com/ta04/api-gateway/helper"
+	userPB "github.com/ta04/user-service/proto"
 )
 
 // HandleUser handles all the requests to user APIs

@@ -22,9 +22,9 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/SleepingNext/api-gateway/helper"
-	orderPB "github.com/SleepingNext/order-service/proto"
 	"github.com/micro/go-micro/web"
+	"github.com/ta04/api-gateway/helper"
+	orderPB "github.com/ta04/order-service/proto"
 )
 
 // HandleOrder handles all the requests to order APIs

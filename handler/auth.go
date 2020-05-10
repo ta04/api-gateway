@@ -23,9 +23,9 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/SleepingNext/api-gateway/helper"
-	authPB "github.com/SleepingNext/auth-service/proto"
 	"github.com/micro/go-micro/web"
+	"github.com/ta04/api-gateway/helper"
+	authPB "github.com/ta04/auth-service/proto"
 )
 
 // HandleAuth handles all the requests to auth APIs

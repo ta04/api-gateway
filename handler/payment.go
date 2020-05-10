@@ -22,9 +22,9 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/SleepingNext/api-gateway/helper"
-	paymentPB "github.com/SleepingNext/payment-service/proto"
 	"github.com/micro/go-micro/web"
+	"github.com/ta04/api-gateway/helper"
+	paymentPB "github.com/ta04/payment-service/proto"
 )
 
 // HandlePayment handles all the requests to payment APIs

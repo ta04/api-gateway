@@ -18,12 +18,12 @@ Dear Programmers,
 package helper
 
 import (
-	userPB "github.com/G0tYou/user-service/proto"
-	authPB "github.com/SleepingNext/auth-service/proto"
-	orderPB "github.com/SleepingNext/order-service/proto"
-	paymentPB "github.com/SleepingNext/payment-service/proto"
-	productPB "github.com/SleepingNext/product-service/proto"
 	"github.com/micro/go-micro"
+	authPB "github.com/ta04/auth-service/proto"
+	orderPB "github.com/ta04/order-service/proto"
+	paymentPB "github.com/ta04/payment-service/proto"
+	productPB "github.com/ta04/product-service/proto"
+	userPB "github.com/ta04/user-service/proto"
 )
 
 // NewProductSC creates a new product service client

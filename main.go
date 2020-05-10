@@ -20,10 +20,10 @@ package main
 import (
 	"log"
 
-	"github.com/SleepingNext/api-gateway/config"
-	"github.com/SleepingNext/api-gateway/handler"
 	"github.com/micro/go-micro/web"
 	"github.com/micro/go-plugins/registry/consul"
+	"github.com/ta04/api-gateway/config"
+	"github.com/ta04/api-gateway/handler"
 )
 
 func main() {
