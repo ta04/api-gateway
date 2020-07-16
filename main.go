@@ -22,8 +22,8 @@ import (
 
 	"github.com/micro/go-micro/web"
 	"github.com/micro/go-plugins/registry/consul"
-	"github.com/ta04/api-gateway/config"
 	"github.com/ta04/api-gateway/handler"
+	"github.com/ta04/api-gateway/internal/config"
 )
 
 func main() {
@@ -44,6 +44,7 @@ func main() {
 	handler.HandleOrder(s)
 	handler.HandleUser(s)
 	handler.HandlePayment(s)
+	handler.HandlePaymentMethod(s)
 	handler.HandleAuth(s)
 
 	err := s.Run()

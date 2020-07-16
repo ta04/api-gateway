@@ -5,16 +5,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 	"strings"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/ta04/api-gateway/config"
+	"github.com/ta04/api-gateway/internal/config"
 )
 
 // Error is an error message
 type Error struct {
-	Code    string `json:"code,omitempty"`
+	Code    int    `json:"code,omitempty"`
 	Message string `json:"message,omitempty"`
 }
 
@@ -26,16 +25,16 @@ type Response struct {
 // JWTMiddleware is the middleware for JWT based auth
 func JWTMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		unauthorizedRes := &Response{
+			Error: &Error{
+				Code:    http.StatusUnauthorized,
+				Message: "Unauthorized Access. Malformed Token",
+			},
+		}
+
 		authHeader := strings.Split(r.Header.Get("Authorization"), "Bearer ")
 		if len(authHeader) != 2 {
-			res := &Response{
-				Error: &Error{
-					Code:    strconv.Itoa(http.StatusUnauthorized),
-					Message: "Unauthorized Access. Malformed Token",
-				},
-			}
-
-			marshaledRes, err := json.Marshal(res)
+			marshaledRes, err := json.Marshal(unauthorizedRes)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
@@ -58,14 +57,7 @@ func JWTMiddleware(next http.Handler) http.Handler {
 				ctx := context.WithValue(r.Context(), "claims", claims)
 				next.ServeHTTP(w, r.WithContext(ctx))
 			} else {
-				res := &Response{
-					Error: &Error{
-						Code:    strconv.Itoa(http.StatusUnauthorized),
-						Message: "Unauthorized Access",
-					},
-				}
-
-				marshaledRes, err := json.Marshal(res)
+				marshaledRes, err := json.Marshal(unauthorizedRes)
 				if err != nil {
 					http.Error(w, err.Error(), http.StatusInternalServerError)
 					return

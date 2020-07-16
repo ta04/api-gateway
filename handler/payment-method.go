@@ -18,22 +18,22 @@ Dear Programmers,
 package handler
 
 import (
-	"encoding/json"
-	"io/ioutil"
-	"net/http"
+"encoding/json"
+"io/ioutil"
+"net/http"
 
-	"github.com/micro/go-micro/web"
-	"github.com/ta04/api-gateway/client"
-	"github.com/ta04/api-gateway/helper"
-	"github.com/ta04/api-gateway/middleware"
-	proto "github.com/ta04/product-service/model/proto"
+"github.com/micro/go-micro/web"
+"github.com/ta04/api-gateway/client"
+"github.com/ta04/api-gateway/helper"
+"github.com/ta04/api-gateway/middleware"
+proto "github.com/ta04/payment-method-service/model/proto"
 )
 
-// HandleProduct handles all the requests to product APIs
-func HandleProduct(s web.Service) {
-	productSC := client.NewProductSC()
+// HandlePaymentMethod handles all the requests to payment method APIs
+func HandlePaymentMethod(s web.Service) {
+	paymentMethodSC := client.NewPaymentMethodSC()
 
-	s.HandleFunc("/product/index", func(w http.ResponseWriter, r *http.Request) {
+	s.HandleFunc("/payment-method/index", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			body, err := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
@@ -42,14 +42,14 @@ func HandleProduct(s web.Service) {
 				return
 			}
 
-			var request *proto.GetAllProductsRequest
+			var request *proto.GetAllPaymentMethodsRequest
 			err = json.Unmarshal(body, &request)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
-			res, err := productSC.GetAllProducts(r.Context(), request)
+			res, err := paymentMethodSC.GetAllPaymentMethods(r.Context(), request)
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -72,7 +72,7 @@ func HandleProduct(s web.Service) {
 		return
 	})
 
-	s.HandleFunc("/product/show", func(w http.ResponseWriter, r *http.Request) {
+	s.HandleFunc("/payment-method/show", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			body, err := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
@@ -81,14 +81,14 @@ func HandleProduct(s web.Service) {
 				return
 			}
 
-			var request *proto.GetOneProductRequest
+			var request *proto.GetOnePaymentMethodRequest
 			err = json.Unmarshal(body, &request)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
-			res, err := productSC.GetOneProduct(r.Context(), request)
+			res, err := paymentMethodSC.GetOnePaymentMethod(r.Context(), request)
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -111,7 +111,7 @@ func HandleProduct(s web.Service) {
 		return
 	})
 
-	s.Handle("/product/store", middleware.JWTMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	s.Handle("/payment-method/store", middleware.JWTMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			body, err := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
@@ -120,14 +120,14 @@ func HandleProduct(s web.Service) {
 				return
 			}
 
-			var product *proto.Product
-			err = json.Unmarshal(body, &product)
+			var paymentMethod *proto.PaymentMethod
+			err = json.Unmarshal(body, &paymentMethod)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
-			res, err := productSC.CreateOneProduct(r.Context(), product)
+			res, err := paymentMethodSC.CreateOnePaymentMethod(r.Context(), paymentMethod)
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -150,7 +150,7 @@ func HandleProduct(s web.Service) {
 		return
 	})))
 
-	s.Handle("/product/update", middleware.JWTMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	s.Handle("/payment-method/update", middleware.JWTMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "PUT" {
 			body, err := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
@@ -159,14 +159,14 @@ func HandleProduct(s web.Service) {
 				return
 			}
 
-			var product *proto.Product
-			err = json.Unmarshal(body, &product)
+			var paymentMethod *proto.PaymentMethod
+			err = json.Unmarshal(body, &paymentMethod)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
-			res, err := productSC.UpdateOneProduct(r.Context(), product)
+			res, err := paymentMethodSC.UpdateOnePaymentMethod(r.Context(), paymentMethod)
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return

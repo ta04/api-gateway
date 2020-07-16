@@ -18,25 +18,39 @@ Dear Programmers,
 package handler
 
 import (
-	"context"
 	"encoding/json"
+	"github.com/ta04/api-gateway/helper"
 	"io/ioutil"
 	"net/http"
 
 	"github.com/micro/go-micro/web"
-	"github.com/ta04/api-gateway/helper"
-	userPB "github.com/ta04/user-service/proto"
+	"github.com/ta04/api-gateway/client"
+	proto "github.com/ta04/user-service/model/proto"
 )
 
 // HandleUser handles all the requests to user APIs
 func HandleUser(s web.Service) {
-	userSC := helper.NewUserSC()
+	userSC := client.NewUserSC()
 
 	s.HandleFunc("/user/index", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "GET" {
-			res, err := userSC.IndexUsers(r.Context(), &userPB.IndexUsersRequest{})
+		if r.Method == "POST" {
+			body, err := ioutil.ReadAll(r.Body)
+			defer r.Body.Close()
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			var request *proto.GetAllUsersRequest
+			err = json.Unmarshal(body, &request)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			res, err := userSC.GetAllUsers(r.Context(), request)
+			if err != nil {
+				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
 			}
 
@@ -48,6 +62,9 @@ func HandleUser(s web.Service) {
 
 			w.Header().Set("Content-Type", "application/json")
 			w.Write(marshaledRes)
+			return
+		} else if r.Method == "OPTIONS" {
+			helper.SetAccessControlHeader(w)
 			return
 		}
 		http.Error(w, "Unsupported http method", http.StatusBadRequest)
@@ -63,58 +80,16 @@ func HandleUser(s web.Service) {
 				return
 			}
 
-			var user *userPB.User
-			err = json.Unmarshal(body, &user)
+			var request *proto.GetOneUserRequest
+			err = json.Unmarshal(body, &request)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
-			res, err := userSC.ShowUser(context.Background(), user)
+			res, err := userSC.GetOneUser(r.Context(), request)
 			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			marshaledRes, err := json.Marshal(res)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.Write(marshaledRes)
-			return
-		} else if r.Method == "OPTIONS" {
-			w.Header().Set("Access-Control-Allow-Origin", "*")
-			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
-			return
-		} else {
-			http.Error(w, "Unsupported http method", http.StatusBadRequest)
-			return
-		}
-	})
-
-	s.HandleFunc("/user/showByUsername", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "POST" {
-			body, err := ioutil.ReadAll(r.Body)
-			defer r.Body.Close()
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			var user *userPB.User
-			err = json.Unmarshal(body, &user)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			res, err := userSC.ShowUserByUsername(context.Background(), user)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
 			}
 
@@ -128,14 +103,11 @@ func HandleUser(s web.Service) {
 			w.Write(marshaledRes)
 			return
 		} else if r.Method == "OPTIONS" {
-			w.Header().Set("Access-Control-Allow-Origin", "*")
-			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
-			return
-		} else {
-			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			helper.SetAccessControlHeader(w)
 			return
 		}
+		http.Error(w, "Unsupported http method", http.StatusBadRequest)
+		return
 	})
 
 	s.HandleFunc("/user/store", func(w http.ResponseWriter, r *http.Request) {
@@ -147,16 +119,16 @@ func HandleUser(s web.Service) {
 				return
 			}
 
-			var user *userPB.User
+			var user *proto.User
 			err = json.Unmarshal(body, &user)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
-			res, err := userSC.StoreUser(context.Background(), user)
+			res, err := userSC.CreateOneUser(r.Context(), user)
 			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
 			}
 
@@ -170,14 +142,11 @@ func HandleUser(s web.Service) {
 			w.Write(marshaledRes)
 			return
 		} else if r.Method == "OPTIONS" {
-			w.Header().Set("Access-Control-Allow-Origin", "*")
-			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
-			return
-		} else {
-			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			helper.SetAccessControlHeader(w)
 			return
 		}
+		http.Error(w, "Unsupported http method", http.StatusBadRequest)
+		return
 	})
 
 	s.HandleFunc("/user/update", func(w http.ResponseWriter, r *http.Request) {
@@ -189,16 +158,16 @@ func HandleUser(s web.Service) {
 				return
 			}
 
-			var user *userPB.User
+			var user *proto.User
 			err = json.Unmarshal(body, &user)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
-			res, err := userSC.UpdateUser(r.Context(), user)
+			res, err := userSC.UpdateOneUser(r.Context(), user)
 			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
 			}
 
@@ -212,55 +181,10 @@ func HandleUser(s web.Service) {
 			w.Write(marshaledRes)
 			return
 		} else if r.Method == "OPTIONS" {
-			w.Header().Set("Access-Control-Allow-Origin", "*")
-			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
-			return
-		} else {
-			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			helper.SetAccessControlHeader(w)
 			return
 		}
-	})
-
-	s.HandleFunc("/user/destroy", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "DELETE" {
-			body, err := ioutil.ReadAll(r.Body)
-			defer r.Body.Close()
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			var user *userPB.User
-			err = json.Unmarshal(body, &user)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			res, err := userSC.DestroyUser(r.Context(), user)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			marshaledRes, err := json.Marshal(res)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.Write(marshaledRes)
-			return
-		} else if r.Method == "OPTIONS" {
-			w.Header().Set("Access-Control-Allow-Origin", "*")
-			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
-			return
-		} else {
-			http.Error(w, "Unsupported http method", http.StatusBadRequest)
-			return
-		}
+		http.Error(w, "Unsupported http method", http.StatusBadRequest)
+		return
 	})
 }

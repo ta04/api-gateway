@@ -19,23 +19,39 @@ package handler
 
 import (
 	"encoding/json"
+	"github.com/ta04/api-gateway/middleware"
 	"io/ioutil"
 	"net/http"
 
 	"github.com/micro/go-micro/web"
+	"github.com/ta04/api-gateway/client"
 	"github.com/ta04/api-gateway/helper"
-	orderPB "github.com/ta04/order-service/proto"
+	proto "github.com/ta04/order-service/model/proto"
 )
 
 // HandleOrder handles all the requests to order APIs
 func HandleOrder(s web.Service) {
-	orderSC := helper.NewOrderSC()
+	orderSC := client.NewOrderSC()
 
-	s.HandleFunc("/order/index", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "GET" {
-			res, err := orderSC.IndexOrders(r.Context(), &orderPB.IndexOrdersRequest{})
+	s.Handle("/order/index", middleware.JWTMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "POST" {
+			body, err := ioutil.ReadAll(r.Body)
+			defer r.Body.Close()
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			var request *proto.GetAllOrdersRequest
+			err = json.Unmarshal(body, &request)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			res, err := orderSC.GetAllOrders(r.Context(), request)
+			if err != nil {
+				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
 			}
 
@@ -47,13 +63,16 @@ func HandleOrder(s web.Service) {
 
 			w.Header().Set("Content-Type", "application/json")
 			w.Write(marshaledRes)
+			return
+		} else if r.Method == "OPTIONS" {
+			helper.SetAccessControlHeader(w)
 			return
 		}
 		http.Error(w, "Unsupported http method", http.StatusBadRequest)
 		return
-	})
+	})))
 
-	s.HandleFunc("/order/indexByUserID", func(w http.ResponseWriter, r *http.Request) {
+	s.Handle("/order/show", middleware.JWTMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			body, err := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
@@ -62,16 +81,16 @@ func HandleOrder(s web.Service) {
 				return
 			}
 
-			var user *orderPB.User
-			err = json.Unmarshal(body, &user)
+			var request *proto.GetOneOrderRequest
+			err = json.Unmarshal(body, &request)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
-			res, err := orderSC.IndexOrdersByUserID(r.Context(), user)
+			res, err := orderSC.GetOneOrder(r.Context(), request)
 			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
 			}
 
@@ -85,17 +104,14 @@ func HandleOrder(s web.Service) {
 			w.Write(marshaledRes)
 			return
 		} else if r.Method == "OPTIONS" {
-			w.Header().Set("Access-Control-Allow-Origin", "*")
-			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
-			return
-		} else {
-			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			helper.SetAccessControlHeader(w)
 			return
 		}
-	})
+		http.Error(w, "Unsupported http method", http.StatusBadRequest)
+		return
+	})))
 
-	s.HandleFunc("/order/show", func(w http.ResponseWriter, r *http.Request) {
+	s.Handle("/order/store", middleware.JWTMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			body, err := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
@@ -104,16 +120,16 @@ func HandleOrder(s web.Service) {
 				return
 			}
 
-			var order *orderPB.Order
+			var order *proto.Order
 			err = json.Unmarshal(body, &order)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
-			res, err := orderSC.ShowOrder(r.Context(), order)
+			res, err := orderSC.CreateOneOrder(r.Context(), order)
 			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
 			}
 
@@ -127,59 +143,14 @@ func HandleOrder(s web.Service) {
 			w.Write(marshaledRes)
 			return
 		} else if r.Method == "OPTIONS" {
-			w.Header().Set("Access-Control-Allow-Origin", "*")
-			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
-			return
-		} else {
-			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			helper.SetAccessControlHeader(w)
 			return
 		}
-	})
+		http.Error(w, "Unsupported http method", http.StatusBadRequest)
+		return
+	})))
 
-	s.HandleFunc("/order/store", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "POST" {
-			body, err := ioutil.ReadAll(r.Body)
-			defer r.Body.Close()
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			var order *orderPB.Order
-			err = json.Unmarshal(body, &order)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			res, err := orderSC.StoreOrder(r.Context(), order)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			marshaledRes, err := json.Marshal(res)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.Write(marshaledRes)
-			return
-		} else if r.Method == "OPTIONS" {
-			w.Header().Set("Access-Control-Allow-Origin", "*")
-			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
-			return
-		} else {
-			http.Error(w, "Unsupported http method", http.StatusBadRequest)
-			return
-		}
-	})
-
-	s.HandleFunc("/order/update", func(w http.ResponseWriter, r *http.Request) {
+	s.Handle("/order/update", middleware.JWTMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "PUT" {
 			body, err := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
@@ -188,16 +159,16 @@ func HandleOrder(s web.Service) {
 				return
 			}
 
-			var order *orderPB.Order
+			var order *proto.Order
 			err = json.Unmarshal(body, &order)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
-			res, err := orderSC.UpdateOrder(r.Context(), order)
+			res, err := orderSC.UpdateOneOrder(r.Context(), order)
 			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
 			}
 
@@ -211,55 +182,10 @@ func HandleOrder(s web.Service) {
 			w.Write(marshaledRes)
 			return
 		} else if r.Method == "OPTIONS" {
-			w.Header().Set("Access-Control-Allow-Origin", "*")
-			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
-			return
-		} else {
-			http.Error(w, "Unsupported http method", http.StatusBadRequest)
+			helper.SetAccessControlHeader(w)
 			return
 		}
-	})
-
-	s.HandleFunc("/order/destroy", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "DELETE" {
-			body, err := ioutil.ReadAll(r.Body)
-			defer r.Body.Close()
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			var order *orderPB.Order
-			err = json.Unmarshal(body, &order)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			res, err := orderSC.DestroyOrder(r.Context(), order)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			marshaledRes, err := json.Marshal(res)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.Write(marshaledRes)
-			return
-		} else if r.Method == "OPTIONS" {
-			w.Header().Set("Access-Control-Allow-Origin", "*")
-			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token")
-			return
-		} else {
-			http.Error(w, "Unsupported http method", http.StatusBadRequest)
-			return
-		}
-	})
+		http.Error(w, "Unsupported http method", http.StatusBadRequest)
+		return
+	})))
 }
