@@ -50,6 +50,10 @@ func HandleOrder(s web.Service) {
 			}
 
 			res, err := orderSC.GetAllOrders(r.Context(), request)
+			if res == nil {
+				http.Error(w, "no orders returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -89,6 +93,10 @@ func HandleOrder(s web.Service) {
 			}
 
 			res, err := orderSC.GetOneOrder(r.Context(), request)
+			if res == nil {
+				http.Error(w, "no order returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -128,6 +136,10 @@ func HandleOrder(s web.Service) {
 			}
 
 			res, err := orderSC.CreateOneOrder(r.Context(), order)
+			if res == nil {
+				http.Error(w, "no order returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -167,6 +179,10 @@ func HandleOrder(s web.Service) {
 			}
 
 			res, err := orderSC.UpdateOneOrder(r.Context(), order)
+			if res == nil {
+				http.Error(w, "no order returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return

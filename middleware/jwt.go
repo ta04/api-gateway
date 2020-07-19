@@ -3,12 +3,12 @@ package middleware
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/ta04/api-gateway/internal/config"
+	authModel "github.com/ta04/auth-service/model"
 )
 
 // Error is an error message
@@ -44,15 +44,15 @@ func JWTMiddleware(next http.Handler) http.Handler {
 			w.Write(marshaledRes)
 		} else {
 			jwtToken := authHeader[1]
-			token, _ := jwt.Parse(jwtToken, func(token *jwt.Token) (interface{}, error) {
-				_, ok := token.Method.(*jwt.SigningMethodHMAC)
-				if !ok {
-					return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
-				}
+			token, err := jwt.ParseWithClaims(jwtToken, &authModel.Claims{}, func(token *jwt.Token) (interface{}, error) {
 				return []byte(config.SecretKey()), nil
 			})
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
 
-			claims, ok := token.Claims.(jwt.MapClaims)
+			claims, ok := token.Claims.(*authModel.Claims)
 			if ok && token.Valid {
 				ctx := context.WithValue(r.Context(), "claims", claims)
 				next.ServeHTTP(w, r.WithContext(ctx))

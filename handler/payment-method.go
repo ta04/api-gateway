@@ -33,7 +33,7 @@ proto "github.com/ta04/payment-method-service/model/proto"
 func HandlePaymentMethod(s web.Service) {
 	paymentMethodSC := client.NewPaymentMethodSC()
 
-	s.HandleFunc("/payment-method/index", func(w http.ResponseWriter, r *http.Request) {
+	s.Handle("/payment-method/index", middleware.JWTMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			body, err := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
@@ -50,6 +50,10 @@ func HandlePaymentMethod(s web.Service) {
 			}
 
 			res, err := paymentMethodSC.GetAllPaymentMethods(r.Context(), request)
+			if res == nil {
+				http.Error(w, "no payment methods returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -70,9 +74,9 @@ func HandlePaymentMethod(s web.Service) {
 		}
 		http.Error(w, "Unsupported http method", http.StatusBadRequest)
 		return
-	})
+	})))
 
-	s.HandleFunc("/payment-method/show", func(w http.ResponseWriter, r *http.Request) {
+	s.Handle("/payment-method/show", middleware.JWTMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			body, err := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
@@ -89,6 +93,10 @@ func HandlePaymentMethod(s web.Service) {
 			}
 
 			res, err := paymentMethodSC.GetOnePaymentMethod(r.Context(), request)
+			if res == nil {
+				http.Error(w, "no payment method returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -109,7 +117,7 @@ func HandlePaymentMethod(s web.Service) {
 		}
 		http.Error(w, "Unsupported http method", http.StatusBadRequest)
 		return
-	})
+	})))
 
 	s.Handle("/payment-method/store", middleware.JWTMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
@@ -128,6 +136,10 @@ func HandlePaymentMethod(s web.Service) {
 			}
 
 			res, err := paymentMethodSC.CreateOnePaymentMethod(r.Context(), paymentMethod)
+			if res == nil {
+				http.Error(w, "no payment method returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -167,6 +179,10 @@ func HandlePaymentMethod(s web.Service) {
 			}
 
 			res, err := paymentMethodSC.UpdateOnePaymentMethod(r.Context(), paymentMethod)
+			if res == nil {
+				http.Error(w, "no payment method returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return

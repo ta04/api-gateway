@@ -49,6 +49,10 @@ func HandleUser(s web.Service) {
 			}
 
 			res, err := userSC.GetAllUsers(r.Context(), request)
+			if res == nil {
+				http.Error(w, "no users returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -88,6 +92,10 @@ func HandleUser(s web.Service) {
 			}
 
 			res, err := userSC.GetOneUser(r.Context(), request)
+			if res == nil {
+				http.Error(w, "no user returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -127,6 +135,10 @@ func HandleUser(s web.Service) {
 			}
 
 			res, err := userSC.CreateOneUser(r.Context(), user)
+			if res == nil {
+				http.Error(w, "no user returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -166,6 +178,10 @@ func HandleUser(s web.Service) {
 			}
 
 			res, err := userSC.UpdateOneUser(r.Context(), user)
+			if res == nil {
+				http.Error(w, "no user returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return

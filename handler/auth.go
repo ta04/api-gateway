@@ -48,6 +48,10 @@ func HandleAuth(s web.Service) {
 			}
 
 			res, err := authSC.AuthRPC1(r.Context(), request)
+			if res == nil {
+				http.Error(w, "failed to authenticate", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -87,6 +91,10 @@ func HandleAuth(s web.Service) {
 			}
 
 			res, err := authSC.AuthRPC2(r.Context(), request)
+			if res == nil {
+				http.Error(w, "failed to authenticate", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return

@@ -50,6 +50,10 @@ func HandlePayment(s web.Service) {
 			}
 
 			res, err := paymentSC.GetAllPayments(r.Context(), request)
+			if res == nil {
+				http.Error(w, "no payments returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -89,6 +93,10 @@ func HandlePayment(s web.Service) {
 			}
 
 			res, err := paymentSC.GetOnePayment(r.Context(), request)
+			if res == nil {
+				http.Error(w, "no payment returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -128,6 +136,10 @@ func HandlePayment(s web.Service) {
 			}
 
 			res, err := paymentSC.CreateOnePayment(r.Context(), payment)
+			if res == nil {
+				http.Error(w, "no payment returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -167,6 +179,10 @@ func HandlePayment(s web.Service) {
 			}
 
 			res, err := paymentSC.UpdateOnePayment(r.Context(), payment)
+			if res == nil {
+				http.Error(w, "no payment returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return

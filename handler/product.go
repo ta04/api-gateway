@@ -50,6 +50,10 @@ func HandleProduct(s web.Service) {
 			}
 
 			res, err := productSC.GetAllProducts(r.Context(), request)
+			if res == nil {
+				http.Error(w, "no products returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -89,6 +93,10 @@ func HandleProduct(s web.Service) {
 			}
 
 			res, err := productSC.GetOneProduct(r.Context(), request)
+			if res == nil {
+				http.Error(w, "no product returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -128,6 +136,10 @@ func HandleProduct(s web.Service) {
 			}
 
 			res, err := productSC.CreateOneProduct(r.Context(), product)
+			if res == nil {
+				http.Error(w, "no product returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
@@ -167,6 +179,10 @@ func HandleProduct(s web.Service) {
 			}
 
 			res, err := productSC.UpdateOneProduct(r.Context(), product)
+			if res == nil {
+				http.Error(w, "no product returned", http.StatusInternalServerError)
+				return
+			}
 			if err != nil {
 				http.Error(w, res.Error.Message, int(res.Error.Code))
 				return
