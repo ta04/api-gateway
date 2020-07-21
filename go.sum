@@ -499,6 +499,8 @@ github.com/ta04/auth-service v0.0.0-20200720193118-e4319c7fc456 h1:Cjqg41q3gGp8j
 github.com/ta04/auth-service v0.0.0-20200720193118-e4319c7fc456/go.mod h1:WQxiV6rsGM4uGuu1EVSbfaqOD0IsHZtsHPgxAQAdBQM=
 github.com/ta04/auth-service v0.0.0-20200721015929-f1515dfbc3a3 h1:VTKptkeaq8hxvZM9wA9nyaQcPX6P3lyQe/CRYGLIyW8=
 github.com/ta04/auth-service v0.0.0-20200721015929-f1515dfbc3a3/go.mod h1:WQxiV6rsGM4uGuu1EVSbfaqOD0IsHZtsHPgxAQAdBQM=
+github.com/ta04/auth-service v0.0.0-20200721210822-6ca3d3f0384c h1:GqPB7tMfX6Y5LJrMNMxZ4HpJGm4LPpX6GlJtKZ90pOc=
+github.com/ta04/auth-service v0.0.0-20200721210822-6ca3d3f0384c/go.mod h1:lLZJFSvYfqS6hl+8tSdyYsYRR0oQxCCKNNprXMpsIkA=
 github.com/ta04/order-service v0.0.0-20200510131931-0ab43e4230db h1:wq+kYl3WU9JoI6nTJouEuaC6OynF8lltBwR5ZOVVmYA=
 github.com/ta04/order-service v0.0.0-20200510131931-0ab43e4230db/go.mod h1:rxjsNOcDYzAD0CeApwPcnRfXnzAkeveTVGj0qGdSsxk=
 github.com/ta04/order-service v0.0.0-20200708062435-2d526b3d69f2 h1:zJQTSBjLtVKz48u6tyDW76gZohMG9PW4Qc1YtZpnr/4=

@@ -9,7 +9,7 @@ require (
 	github.com/joho/godotenv v1.3.0
 	github.com/micro/go-micro v1.18.0
 	github.com/micro/go-plugins/registry/consul v0.0.0-20200119172437-4fe21aa238fd
-	github.com/ta04/auth-service v0.0.0-20200721015929-f1515dfbc3a3
+	github.com/ta04/auth-service v0.0.0-20200721210822-6ca3d3f0384c
 	github.com/ta04/order-service v0.0.0-20200719185756-bbc7da825e94
 	github.com/ta04/payment-method-service v0.0.0-20200719184732-81c713eec806
 	github.com/ta04/payment-service v0.0.0-20200719182157-99f2bf3b6219
