@@ -14,5 +14,5 @@ require (
 	github.com/ta04/payment-method-service v0.0.0-20200719184732-81c713eec806
 	github.com/ta04/payment-service v0.0.0-20200719182157-99f2bf3b6219
 	github.com/ta04/product-service v0.0.0-20200719202405-ecbda318c0ab
-	github.com/ta04/user-service v0.0.0-20200721034045-cef5fa22326d
+	github.com/ta04/user-service v0.0.0-20200721201256-5c15f623b8dc
 )

@@ -575,6 +575,8 @@ github.com/ta04/user-service v0.0.0-20200720183101-dfa132f298d2 h1:hmOAPsRJU1bS7
 github.com/ta04/user-service v0.0.0-20200720183101-dfa132f298d2/go.mod h1:HAl48gddCbwQy93Y2VzViZ/hxebDx6Y8uUrYN/3sW40=
 github.com/ta04/user-service v0.0.0-20200721034045-cef5fa22326d h1:h+EB/2GloyxUtN/NLOS1dH0EMx8WQqfMhrcoO6Cx0jc=
 github.com/ta04/user-service v0.0.0-20200721034045-cef5fa22326d/go.mod h1:0SVOU02BC+M5CkasncG+JjKhCK+sSPDQKV1FGSUZXC0=
+github.com/ta04/user-service v0.0.0-20200721201256-5c15f623b8dc h1:Oz5a8rMi2/xZsk/zB73sOnjtUVkg8G9eXrv1OXL6Mwk=
+github.com/ta04/user-service v0.0.0-20200721201256-5c15f623b8dc/go.mod h1:0SVOU02BC+M5CkasncG+JjKhCK+sSPDQKV1FGSUZXC0=
 github.com/technoweenie/multipartstreamer v1.0.1/go.mod h1:jNVxdtShOxzAsukZwTSw6MDx5eUJoiEBsSvzDU9uzog=
 github.com/timewasted/linode v0.0.0-20160829202747-37e84520dcf7/go.mod h1:imsgLplxEC/etjIhdr3dNzV3JeT27LbVu5pYWm0JCBY=
 github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5 h1:LnC5Kc/wtumK+WB441p7ynQJzVuNRJiqddSIE3IlSEQ=
