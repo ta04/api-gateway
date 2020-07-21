@@ -19,12 +19,12 @@ package handler
 
 import (
 	"encoding/json"
-	"github.com/ta04/api-gateway/helper"
 	"io/ioutil"
 	"net/http"
 
 	"github.com/micro/go-micro/web"
 	"github.com/ta04/api-gateway/client"
+	"github.com/ta04/api-gateway/helper"
 	proto "github.com/ta04/user-service/model/proto"
 )
 
